@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Nature Photo Gallery</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f0f5f2;
+            color: #20352c;
+        }
+
+        h1 {
+            text-align: center;
+            color: #205c45;
+        }
+
+        .intro {
+            max-width: 700px;
+            margin: 0 auto 25px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        figure {
+            margin: 0;
+            padding: 12px;
+            background-color: #ffffff;
+            border: 2px solid #c8d9cf;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        figure img {
+            display: block;
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        figcaption {
+            padding: 12px 4px 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        figure:hover,
+        figure:focus {
+            border-color: #16734b;
+            transform: translateY(-4px);
+            outline: 3px solid #16734b;
+            outline-offset: 2px;
+        }
+
+        figure:focus {
+            background-color: #e4f4e9;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #40594b;
+        }
+
+        @media (max-width: 750px) {
+            .gallery {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            figure img {
+                height: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+   <header>
+        <h1>Interactive Nature Photo Gallery</h1>
+        <p class="intro">
+            Explore six beautiful scenes from nature.
+            Move your mouse over an image or use the Tab key
+            to explore the gallery.
+        </p>
+    </header>
+
+    <main>
+        <section class="gallery" aria-label="Nature photo gallery">
+
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80"
+                    alt="A scenic green landscape beneath a wide open sky">
+                <figcaption>Green Landscape</figcaption>
+            </figure>
+
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=80"
+                    alt="A mountain reflected in a calm lake">
+                <figcaption>Mountain Lake</figcaption>
+            </figure>
+
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80"
+                    alt="Sunlight filtering through a lush green forest">
+                <figcaption>Forest Path</figcaption>
+            </figure>
+
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
+                    alt="Blue ocean waves meeting a sandy beach">
+                <figcaption>Ocean Beach</figcaption>
+            </figure>
+
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
+                    alt="Tall mountain peaks rising above the clouds">
+                <figcaption>Mountain Peaks</figcaption>
+            </figure>
+
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80"
+                    alt="Warm sunlight spreading across a peaceful field at sunrise">
+                <figcaption>Golden Sunrise</figcaption>
+            </figure>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>Interactive Photo Gallery | Created for the Web Accessibility Project</p>
+    </footer>
+
+    <script>
+        // Change the appearance when the mouse enters an image.
+        function addMouseEffect() {
+            this.style.borderColor = "#d97706";
+            this.style.backgroundColor = "#fff7e6";
+        }
+
+        // Restore the original appearance when the mouse leaves.
+        function removeMouseEffect() {
+            this.style.borderColor = "#c8d9cf";
+            this.style.backgroundColor = "#ffffff";
+            this.style.transform = "translateY(0)";
+        }
+
+        // Change the appearance when a figure receives keyboard focus.
+        function addFocusEffect() {
+            this.style.borderColor = "#16734b";
+            this.style.backgroundColor = "#e4f4e9";
+        }
+
+        // Restore the appearance when the figure loses keyboard focus.
+        function removeFocusEffect() {
+            this.style.borderColor = "#c8d9cf";
+            this.style.backgroundColor = "#ffffff";
+        }
+
+        // Add event listeners to all figures after the page loads.
+        function addTabFocus() {
+            console.log("Page loaded: adding tabindex to gallery figures.");
+
+            const figures = document.querySelectorAll(".gallery figure");
+
+            for (let i = 0; i < figures.length; i++) {
+                figures[i].setAttribute("tabindex", "0");
+
+                figures[i].addEventListener("mouseover", addMouseEffect);
+                figures[i].addEventListener("mouseleave", removeMouseEffect);
+
+                figures[i].addEventListener("focus", addFocusEffect);
+                figures[i].addEventListener("blur", removeFocusEffect);
+            }
+
+            console.log("Tabindex added to " + figures.length + " figures.");
+        }
+
+        // Run the function when the page has finished loading.
+        window.addEventListener("load", addTabFocus);
+    </script> 
+</body>
+</html>
